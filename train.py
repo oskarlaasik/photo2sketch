@@ -69,7 +69,7 @@ def train():
     image_utils = ImageUtils()
 
   def fit(train_ds, epochs, test_ds, num_training_samples):
-    # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
+    checkpoint.restore(tf.train.latest_checkpoint(config.checkpoint_dir))
     metrics_names = ['acc', 'pr']
     pb_i = Progbar(num_training_samples, stateful_metrics=metrics_names)
     for epoch in range(epochs):
@@ -86,11 +86,11 @@ def train():
 
       # saving (checkpoint) the model every 20 epochs
       if (epoch + 1) % 20 == 0:
-        checkpoint.save(file_prefix=model.checkpoint_prefix)
+        checkpoint.save(file_prefix=config.checkpoint_prefix)
 
       print('Time taken for epoch {} is {} sec\n'.format(epoch + 1,
                                                          time.time() - start))
-    checkpoint.save(file_prefix=model.checkpoint_prefix)
+    checkpoint.save(file_prefix=config.checkpoint_prefix)
 
   fit(train_dataset, config.EPOCHS, test_dataset, num_training_samples)
 
